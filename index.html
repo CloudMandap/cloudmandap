@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudMandap Pvt. Ltd - Intelligent IT Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: #0A2D6B; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header - Dark Blue */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: #00003f;
+            box-shadow: 0 4px 20px rgba(10, 45, 107, 0.15);
+            padding: 1rem 0;
+        }
+       nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 78px; transition: all 0.3s; }
+        @media (max-width: 1000px) { .logo img { height: 65px; } }
+        .nav-links {
+            display: flex; gap: 2.5rem; list-style: none;
+        }
+        .nav-links a {
+            color: #ffffff;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -8px;
+            left: 50%;
+            background: #00003f;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        .nav-links a:hover { color: #b1b1c3; }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Hero - White Background */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: #ffffff;
+            position: relative;
+            padding-top: 100px;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), rgba(10, 45, 107, 0.08));
+            z-index: 1;
+        }
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+        }
+        .hero h1 {
+            font-size: 4.2rem;
+            font-weight: 900;
+            color: #0A2D6B;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.4rem;
+            color: #444;
+            margin-bottom: 2.5rem;
+        }
+        .cta-btn {
+            background: linear-gradient(135deg, #00003f, #0A2D6B);
+            color: #fff;
+            padding: 1.1rem 3rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
+            transition: all 0.4s;
+        }
+        .cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(6, 182, 212, 0.4);
+        }
+
+        /* Sections */
+        section { padding: 7rem 0; }
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 4rem;
+            color: #0A2D6B;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background: #00003f;
+            display: block;
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+
+        /* Services */
+        .services { background: #f7fafe; }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+        .service-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(10, 45, 107, 0.08);
+            transition: transform 0.45s cubic-bezier(.2,.9,.2,1), box-shadow 0.45s, opacity 0.6s;
+            border: 1px solid #e8eef8;
+            opacity: 0;
+            transform: translateY(16px);
+        }
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(6, 182, 212, 0.2);
+            border-color: #4e4edd;
+        }
+        .service-card.visible{ opacity:1; transform: translateY(0); }
+        .service-icon {
+            width: 170px;
+            height: 170px;
+            margin: 0 auto 1.8rem;
+            padding: 0;
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .service-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: none;
+            transition: transform 0.4s ease;
+        }
+
+        .service-icon::after{
+            display: none;
+        }
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin: 1.2rem 0;
+            color: #0A2D6B;
+        }
+        .service-card ul {
+            text-align: left;
+            margin-top: 1rem;
+            color: #444;
+        }
+        .service-card li {
+            margin-bottom: 0.7rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .service-card li::before {
+            content: '✓';
+            color: #00003f;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Products, Resources, Why Choose */
+        .products, .resources, .why-choose { background: #ffffff; }
+        .products-grid, .resources-grid, .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .product-card, .resource-card, .why-card {
+            background: #f8fbff;
+            padding: 2.5rem;
+            border-radius: 18px;
+            border-left: 5px solid #00003f;
+            transition: all 0.3s;
+        }
+        .product-card:hover, .resource-card:hover, .why-card:hover {
+            background: #00003f;
+            color: white;
+            transform: translateY(-8px);
+        }
+        .product-card:hover h3, .resource-card:hover h3, .why-card:hover h3 {
+            color: white;
+        }
+
+        /* CTA Section */
+
+
+     .cta-section {
+    padding: 6rem 0;
+    text-align: center;
+    color:white;
+    background-image: url("images/ai1.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Animation */
+    animation: zoomBackground 20s ease-in-out infinite alternate;
+}
+
+/* Keyframes for background zoom animation */
+@keyframes zoomBackground {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.03);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Make it work on the background using pseudo element */
+.cta-section::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("images/ai1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    animation: zoomBackground 20s ease-in-out infinite alternate;
+}
+
+
+        .cta-section h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        .cta-section .cta-btn {
+            background: #ffffff;
+            color: #0A2D6B;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        footer {
+            background: #0A2D6B;
+            color: #e2e8f0;
+            text-align: center;
+            padding: 3rem 0;
+            font-size: 0.95rem;
+        }
+        footer a { color: #e2e8f0; font-weight: 600; }
+
+        /* Social icons in footer */
+        .social-links {
+            margin: 1rem 0 0;
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            color: #e2e8f0;
+            transition: background 0.2s, transform 0.12s;
+            font-size: 1.05rem;
+        }
+        .social-links a:hover {
+            background: #ffffff;
+            color: #0A2D6B;
+            transform: translateY(-4px);
+        }
+
+        /* Testimonial Cards */
+        .testimonial-card {
+            background: #f8fbff;
+            padding: 2.5rem;
+            border-radius: 18px;
+            border-left: 5px solid #00003f;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .testimonial-card:hover {
+            background: #00003f;
+            color: white;
+            transform: translateY(-8px);
+        }
+        .testimonial-card div {
+            transition: all 0.3s;
+        }
+        .testimonial-card .company-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: #00003f;
+            margin-bottom: 0.7rem;
+        }
+        .testimonial-card:hover .company-name,
+        .testimonial-card:hover .testimonial-text {
+            color: white !important;
+        }
+        .testimonial-card .testimonial-text {
+            font-size: 1.05rem;
+            color: #555;
+        }
+
+        /* Who We Are Fix */
+        #who-we-are {
+            padding: 6rem 0;
+            background: #ffffff;
+            text-align: center;
+        }
+        #who-we-are p {
+            font-size: 1.3rem;
+            max-width: 900px;
+            margin: 0 auto;
+            color: #333;
+            line-height: 1.9;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="container">
+        <a href="#" class="logo" aria-label="CloudMandap Home">
+            <img src="images/Logo.png" alt="CloudMandap Logo">
+        </a>
+        <ul class="nav-links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#resources">Resources</a></li>
+            <li><a href="#why-choose">Why Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Innovating the Future with Intelligent IT Solutions</h1>
+        <p>AI | Salesforce | DevOps | Custom Software – Built for Scale, Security & Growth</p>
+        <a href="#contact" class="cta-btn">Let's Transform Your Business</a>
+    </div>
+</section>
+
+<section id="who-we-are">
+    <div class="container">
+        <h2 class="section-title">Who We Are</h2>
+        <p><strong>CloudMandap</strong> is a next-generation IT company delivering cutting-edge technology solutions and expert consulting services. Our mission is to empower businesses with scalable, secure, and intelligent systems that drive growth, innovation, and digital transformation.</p>
+    </div>
+</section>
+
+<!-- Keep your Services, Products, etc. sections exactly as before but with new styling applied automatically -->
+
+<section id="services" class="services">
+    <div class="container">
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <img src="images/ai.jpeg" alt="AI">
+                </div>
+                <h3>Artificial Intelligence & Data Solutions</h3>
+                <ul>
+                    <li>AI model development & integration</li>
+                    <li>Machine Learning & Deep Learning solutions</li>
+                    <li>NLP & Generative AI applications</li>
+                    <li>Predictive analytics and automation</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <img src="images/Salesforce-Logo.png" alt="Salesforce">
+                </div>
+                <h3>Salesforce Development & Implementation</h3>
+                <ul>
+                    <li>Salesforce setup, customization, and integration</li>
+                    <li>CRM optimization for business growth</li>
+                    <li>Apex, Lightning, and API development</li>
+                    <li>Ongoing support and managed services</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <img src="images/devopslogo.png" alt="DevOps">
+                </div>
+                <h3>DevOps & Cloud Engineering</h3>
+                <ul>
+                    <li>CI/CD pipeline automation</li>
+                    <li>Cloud infrastructure design (AWS, Azure, GCP)</li>
+                    <li>Containerization (Docker, Kubernetes)</li>
+                    <li>Monitoring, scaling, and system optimization</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Products, Resources, Why Choose, CTA, Footer remain the same structure -->
+
+<section id="products" class="products">
+    <div class="container">
+        <h2 class="section-title">Our Products</h2>
+        <p style="text-align:center; margin-bottom: 3rem; font-size:1.1rem; color:#444;">
+            We develop proprietary, in-house solutions tailored for enterprise and educational innovation
+        </p>
+        <div class="products-grid">
+            <div class="product-card">
+                <h3>Attendance Management System</h3>
+                <p>Robust, reliable tracking for teams and institutions.</p>
+            </div>
+            <div class="product-card">
+                <h3>PTO Tracker</h3>
+                <p>Streamlined paid-time-off management for HR efficiency.</p>
+            </div>
+            <div class="product-card">
+                <h3>Mandaap Talent Suite V0</h3>
+                <p>AI-enabled recruiting product with a low-code to no-code platform for effortless customization.</p>
+            </div>
+            <div class="product-card">
+                <h3>TeachMeApp (AI Chatbot)</h3>
+                <p>An AI-powered math learning assistant that provides step-by-step solutions, emphasizing conceptual understanding.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="resources" class="resources">
+    <div class="container">
+        <h2 class="section-title">Our IT Resource Solutions</h2>
+        <div class="resources-grid">
+            <div class="resource-card">
+                <h3>On-Demand Technical Resources</h3>
+                <p>We provide <strong>highly skilled technical resources on-demand</strong> to support your ongoing projects. Our experts specialize in:</p>
+                <ul style="margin-top:1rem;">
+                    <li>AI & Machine Learning</li>
+                    <li>Salesforce Development</li>
+                    <li>DevOps Engineering</li>
+                    <li>Full-Stack Software Development (AI-based)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="why-choose" class="why-choose">
+    <div class="container">
+        <h2 class="section-title">Why Choose CloudMandap</h2>
+        <div class="why-choose-grid">
+            <div class="why-card">
+                <h3>Dedicated Domain Experts</h3>
+                <p>Our team consists of specialized professionals ready to tackle your unique challenges.</p>
+            </div>
+            <div class="why-card">
+                <h3>Tailored, Scalable Solutions</h3>
+                <p>Custom solutions designed to grow with your business needs.</p>
+            </div>
+            <div class="why-card">
+                <h3>Agile Delivery</h3>
+                <p>Efficient processes and open dialogue ensure project success.</p>
+            </div>
+            <div class="why-card">
+                <h3>Proven Track Record</h3>
+                <p>Trusted by clients across industries for reliable results.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="testimonials" class="testimonials">
+    <div class="container">
+        <h2 class="section-title">Client Testimonials</h2>
+            <div class="testimonials-list" style="max-width:800px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;">
+                <div class="testimonial-card" style="background:#f6f9fe;padding:2.2rem 2rem;border-radius:18px;margin-bottom:0;box-shadow:none;border-left:4px solid #00003f;display:flex;flex-direction:column;justify-content:center;">
+                    <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.15rem;color:#00003f;margin-bottom:0.7rem;">MandapX</div>
+                    <div style="font-size:1.05rem;color:#555;">“A trusted partner in cloud innovation and AI consulting.”</div>
+                </div>
+                <div class="testimonial-card" style="background:#f6f9fe;padding:2.2rem 2rem;border-radius:18px;margin-bottom:0;box-shadow:none;border-left:4px solid #00003f;display:flex;flex-direction:column;justify-content:center;">
+                    <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.15rem;color:#00003f;margin-bottom:0.7rem;">Boson Analytics</div>
+                    <div style="font-size:1.05rem;color:#555;">“Exceptional expertise in delivering scalable, AI-driven systems.”</div>
+                </div>
+            </div>
+    </div>
+</section>
+
+
+<section class="cta-section">
+    <div class="container">
+        <h2>Ready to revolutionize your approach to data and AI?</h2>
+        <p>Contact CloudMandap Pvt. Ltd today, and let’s embark on a journey of digital transformation.</p>
+        <br>
+        <a href="#contact" class="cta-btn">Get In Touch Now</a>
+    </div>
+</section>
+
+<footer id="contact">
+    <div class="container">
+        <p>© 2025 CloudMandap Pvt. Ltd. All rights reserved.</p>
+        <p>Bishalnagar, Kathmandu, Nepal</p>
+        <p><a href="mailto:info@cloudmandap.com">info@cloudmandap.com</a> | +977-9801362482</p>
+        <div class="social-links" role="navigation" aria-label="Social links">
+            <a href="https://www.linkedin.com/company/cloudmandap-pvt-ltd/posts/?feedView=all" target="_blank" rel="noopener noreferrer" aria-label="CloudMandap on LinkedIn">
+                <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61555204479676" target="_blank" rel="noopener noreferrer" aria-label="CloudMandap on Facebook">
+                <i class="fab fa-facebook-f" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Reveal-on-scroll for service cards (staggered)
+    (function(){
+        const cards = document.querySelectorAll('.service-card');
+        if(!cards.length) return;
+        const io = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting){
+                    const index = Array.from(cards).indexOf(entry.target);
+                    setTimeout(()=> entry.target.classList.add('visible'), index * 120);
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.18 });
+        cards.forEach(c => io.observe(c));
+    })();
+</script>
+
+</body>
+</html>
